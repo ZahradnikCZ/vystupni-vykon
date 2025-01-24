@@ -9,16 +9,27 @@ class Program
 {
     static void Main()
     {
+        double Pin = 0;             //Inicializace proměnné
+        double ziskutlum = 0;       // -//-
+
         Console.WriteLine("Výpočet výstupního výkonu zesilovače nebo filtru");
         Console.WriteLine("------------------------------------------------");
 
         //Zadání vstupního výkonu od uživatele
         Console.Write("Zadejte vstupní výkon Pin [mW]: ");
-        double Pin = double.Parse(Console.ReadLine().Replace(".", ","));
+        if (!double.TryParse(Console.ReadLine().Replace(".", ","), out Pin)) {
+            Console.Clear();
+            Console.WriteLine("Neplatný vstup!");
+            Main();
+        }
 
         //Zadání zisku zesilovače nebo ztrát filtru od uživatele
         Console.Write("Zadejte zisk zesilovače nebo útlum filtru (G) [dB]: ");
-        double ziskutlum = double.Parse(Console.ReadLine().Replace(".", ","));
+        if (!double.TryParse(Console.ReadLine().Replace(".", ","), out ziskutlum)) {
+            Console.Clear();
+            Console.WriteLine("Neplatný vstup!");
+            Main();
+        }
 
         // Pout = Pin * 10^(G/10)
         // Zesilení nebo utlum v dB převádíme na poměr výkonů
@@ -42,7 +53,6 @@ class Program
             Pout *= 1000;
             jednotka = "uW";
         }
-
         //Výstup pro uživatele
         Console.WriteLine("------------------------------------------------");
         Console.WriteLine($"Zisk nebo útlum = {Pomer:F3} ");
